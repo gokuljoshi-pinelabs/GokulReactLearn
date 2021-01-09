@@ -17,9 +17,10 @@ export class Userform extends React.Component {
         this.state = {
             user :{
             fname: 'john',
-            age: '30'
+            age: '30',
+            salary:10000
          },
-         users:[{fname:'Ravi',age:20},{fname:'JOhn',age:60}]
+         users:[{fname:'Ravi',age:20,salary:100000},{fname:'JOhn',age:60,salary:200000}]
         }
     }
 
@@ -45,6 +46,7 @@ export class Userform extends React.Component {
     }
 
     render() {
+        const userModel = this.state.user;
         return (
             //only 1 root element
             //either add onChange or make textbox readOnly
@@ -66,20 +68,27 @@ export class Userform extends React.Component {
                 onChange={this.handleEvent} name='fname'
                     placeholder={this.props.label} style={{ backgroundColor: this.props.color }}></input>
 
-                <input value={this.state.user.age} name='age'  onChange={this.handleEvent}
+                <input value={userModel.age} name='age'  onChange={this.handleEvent}
                 placeholder='Age' style={{ backgroundColor: this.props.color }}></input>
+
+                <input value={userModel.salary} name='salary'  onChange={this.handleEvent}
+                placeholder='salary' style={{ backgroundColor: this.props.color }}></input>
                 
-                <button style={{ backgroundColor: this.props.color }} onClick={(event) => { console.log('inline click');console.log(this.state.fname); }}>Inline Save</button>
+                <button style={{ backgroundColor: this.props.color }} onClick={(event) => { console.log('inline click');console.log(userModel.fname); }}>Inline Save</button>
                 <button style={{ backgroundColor: this.props.color }} onClick={this.clkBtn}>Save to List</button>
                 <button onClick={this.print}>Print</button>
                 <table>
                     <thead>
                         <th>FirstName</th>
                         <th>Age</th>
+                        <th>Salary</th>
                     </thead>
                     <tbody>
                         {this.state.users.map((user)=>{
-                            return <tr><td>{user.fname}</td><td>{user.age}</td></tr>
+                            return <tr><td>{user.fname}</td>
+                            <td>{user.age}</td>
+                            <td>{user.salary}</td>
+                            </tr>
                         })}
                     </tbody>
                     
