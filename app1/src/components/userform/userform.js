@@ -38,6 +38,23 @@ export class Userform extends React.Component {
         })
     }
 
+    clkDelete = (index)=>{
+
+        console.log('Delete click');
+        
+        const isDelete= window.confirm('Are you sure');
+        if(isDelete){
+            console.log(this,index);
+            this.state.users.splice(index,1);
+
+            this.setState(
+                {users:this.state.users}
+            )
+        }
+
+        }
+
+       
     handleEvent = (event) => {
         this.setState({   //to rerender , call setstate
           user:Object.assign(this.state.user,{[event.target.name]: event.target.value})
@@ -82,12 +99,16 @@ export class Userform extends React.Component {
                         <th>FirstName</th>
                         <th>Age</th>
                         <th>Salary</th>
+                        <th>Delete</th>
                     </thead>
                     <tbody>
-                        {this.state.users.map((user)=>{
-                            return <tr><td>{user.fname}</td>
+                        {this.state.users.map((user,index)=>{
+                            return <tr>
+                                <td>{index}</td>
+                                <td>{user.fname}</td>
                             <td>{user.age}</td>
                             <td>{user.salary}</td>
+                            <td><button onClick={this.clkDelete.bind(this,index)}>Delete</button></td>
                             </tr>
                         })}
                     </tbody>
