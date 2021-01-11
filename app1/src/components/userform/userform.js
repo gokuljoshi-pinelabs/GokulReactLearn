@@ -19,10 +19,21 @@ export class Userform extends React.Component {
             user :{
             fname: 'john',
             age: '30',
-            salary:10000
+            salary:10000,
+            gender:'Male'
          },
          users:[{fname:'Ravi',age:20,salary:100000},{fname:'JOhn',age:60,salary:200000}]
         }
+                BackendService.getUsers(
+                    (response)=>{  //response callback
+                    this.setState({
+                        users:response
+                    }
+                    )
+            }
+                    ).fail((error)=>{
+                        alert("There is an issue in Get call");
+                    });
     }
 
     saveUser = (event) =>{
@@ -40,15 +51,15 @@ export class Userform extends React.Component {
 
     getUsers = (event) =>{
         BackendService.getUsers(
-                    (response)=>{  //response callback
-                    this.setState({
-                        users:response
-                    }
-                    )
+            (response)=>{  //response callback
+            this.setState({
+                users:response
             }
-        ).fail((error)=>{
-            alert("There is an issue in Get call");
-        });
+            )
+    }
+            ).fail((error)=>{
+                alert("There is an issue in Get call");
+            });
     }
 
     print = (event)=>{
@@ -119,6 +130,9 @@ export class Userform extends React.Component {
 
                 <input value={userModel.salary} name='salary'  onChange={this.handleEvent}
                 placeholder='salary' style={{ backgroundColor: this.props.color }}></input>
+
+                <input type="radio" value="Male" onChange={this.handleEvent} name="gender"/>Male
+                <input type="radio" value="Female" onChange={this.handleEvent} name="gender"/>FeMale
                 
                 <button style={{ backgroundColor: this.props.color }} onClick={(event) => { console.log('inline click');console.log(userModel.fname); }}>Inline Save</button>
                 <button style={{ backgroundColor: this.props.color }} onClick={this.saveUser}>Save User</button>
@@ -131,6 +145,7 @@ export class Userform extends React.Component {
                         <th>FirstName</th>
                         <th>Age</th>
                         <th>Salary</th>
+                        <th>Gender</th>
                         <th>Delete</th>
                     </thead>
                     <tbody>
@@ -141,6 +156,7 @@ export class Userform extends React.Component {
                                 <td>{user.fname}</td>
                             <td>{user.age}</td>
                             <td>{user.salary}</td>
+                            <td>{user.gender}</td>
                             <td><button onClick={this.clkDelete.bind(this,index,user.id)}>Delete</button></td>
                             </tr>
                         })}
