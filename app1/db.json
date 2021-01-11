@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "id": 1
+    },
+    {
+      "fname": "john",
+      "age": "60",
+      "salary": "20000",
+      "id": 2
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "id": 3
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "100002",
+      "id": 4
+    }
+  ]
+}

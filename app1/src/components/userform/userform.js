@@ -6,6 +6,7 @@
 // }
 
 import React from "react";
+import { BackendService } from "../../backend-Service";
 import './userform.css'
 
 export class Userform extends React.Component {
@@ -24,11 +25,17 @@ export class Userform extends React.Component {
         }
     }
 
-    clkBtn = (event) =>{
-        this.setState({
-            users:[...this.state.users,Object.assign({},this.state.user)]
-        }
-        )
+    saveUser = (event) =>{
+        BackendService.saveUser(this.state.user,
+                    (response)=>{  //response callback
+                    this.setState({
+                        users:[...this.state.users,Object.assign({},this.state.user)]
+                    }
+                    )
+            }
+        ).fail((error)=>{
+            alert("There is issue an issue");
+        });
     }
 
     print = (event)=>{
@@ -92,7 +99,7 @@ export class Userform extends React.Component {
                 placeholder='salary' style={{ backgroundColor: this.props.color }}></input>
                 
                 <button style={{ backgroundColor: this.props.color }} onClick={(event) => { console.log('inline click');console.log(userModel.fname); }}>Inline Save</button>
-                <button style={{ backgroundColor: this.props.color }} onClick={this.clkBtn}>Save to List</button>
+                <button style={{ backgroundColor: this.props.color }} onClick={this.saveUser}>Save User</button>
                 <button onClick={this.print}>Print</button>
                 <table>
                     <thead>
