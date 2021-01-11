@@ -48,8 +48,52 @@
       "fname": "john",
       "age": "30",
       "salary": "10000",
-      "gender": "Female",
+      "gender": "FeMale",
       "id": 16
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "gender": "Male",
+      "id": 17
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Lead",
+      "id": 18
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Manager",
+      "id": 19
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Manager",
+      "id": 20
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "1000022",
+      "gender": "FeMale",
+      "role": "Manager",
+      "id": 21
     }
+  ],
+  "roles": [
+    "Programmer",
+    "Manager",
+    "Lead"
   ]
 }
