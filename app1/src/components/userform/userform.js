@@ -29,12 +29,25 @@ export class Userform extends React.Component {
         BackendService.saveUser(this.state.user,
                     (response)=>{  //response callback
                     this.setState({
-                        users:[...this.state.users,Object.assign({},this.state.user)]
+                        users:[...this.state.users,Object.assign({},response)]
                     }
                     )
             }
         ).fail((error)=>{
-            alert("There is issue an issue");
+            alert("There is an issue in save");
+        });
+    }
+
+    getUsers = (event) =>{
+        BackendService.getUsers(
+                    (response)=>{  //response callback
+                    this.setState({
+                        users:response
+                    }
+                    )
+            }
+        ).fail((error)=>{
+            alert("There is an issue in Get call");
         });
     }
 
@@ -45,18 +58,27 @@ export class Userform extends React.Component {
         })
     }
 
-    clkDelete = (index)=>{
+    clkDelete = (index,userid)=>{
 
         console.log('Delete click');
         
         const isDelete= window.confirm('Are you sure');
         if(isDelete){
             console.log(this,index);
-            this.state.users.splice(index,1);
+            BackendService.deleteUser(userid,()=>{
+                 this.state.users.splice(index,1);
+                this.setState(
+                    {users:this.state.users}
+                 )
+            }).fail((error)=>{
+                alert('delete error');
+            });
 
-            this.setState(
-                {users:this.state.users}
-            )
+            // this.state.users.splice(index,1);
+
+            // this.setState(
+            //     {users:this.state.users}
+            // )
         }
 
         }
@@ -101,8 +123,11 @@ export class Userform extends React.Component {
                 <button style={{ backgroundColor: this.props.color }} onClick={(event) => { console.log('inline click');console.log(userModel.fname); }}>Inline Save</button>
                 <button style={{ backgroundColor: this.props.color }} onClick={this.saveUser}>Save User</button>
                 <button onClick={this.print}>Print</button>
+                <button onClick={this.getUsers}>Get Users</button>
                 <table>
                     <thead>
+                    <th>Index</th>
+                    <th>ID</th>
                         <th>FirstName</th>
                         <th>Age</th>
                         <th>Salary</th>
@@ -112,10 +137,11 @@ export class Userform extends React.Component {
                         {this.state.users.map((user,index)=>{
                             return <tr>
                                 <td>{index}</td>
+                                <td>{user.id}</td>
                                 <td>{user.fname}</td>
                             <td>{user.age}</td>
                             <td>{user.salary}</td>
-                            <td><button onClick={this.clkDelete.bind(this,index)}>Delete</button></td>
+                            <td><button onClick={this.clkDelete.bind(this,index,user.id)}>Delete</button></td>
                             </tr>
                         })}
                     </tbody>
