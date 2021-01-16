@@ -23,7 +23,8 @@ export class Userform extends React.Component {
             age: '30',
             salary:10000,
             gender:'FeMale',
-            role:'Programmer'
+            role:'Programmer',
+            sortOrder:true
          },
          users:[{fname:'Ravi',age:20,salary:100000},{fname:'JOhn',age:60,salary:200000}],
          roles:[]
@@ -111,6 +112,22 @@ export class Userform extends React.Component {
 
         }
 
+        sortAge = (event) => {
+             let order=this.state.sortOrder;
+             order=!order;
+             this.state.users.sort((user1,user2)=>{
+                 if(order){
+                    return user1.age-user2.age;
+                 }else{
+                    return user2.age-user1.age;
+                 }
+            });
+
+            this.setState({   //to rerender , call setstate
+                users: this.state.users,
+                sortOrder:order
+              })
+        }
        
     handleEvent = (event) => {
         this.setState({   //to rerender , call setstate
@@ -165,7 +182,7 @@ export class Userform extends React.Component {
                     <th>Index</th>
                     <th>ID</th>
                         <th>FirstName</th>
-                        <th>Age</th>
+                        <th onClick={this.sortAge}>Age</th>
                         <th>Salary</th>
                         <th>Gender</th>
                         <th>Role</th>
