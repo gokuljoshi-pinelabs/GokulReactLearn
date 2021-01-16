@@ -24,7 +24,8 @@ export class Userform extends React.Component {
             salary:10000,
             gender:'FeMale',
             role:'Programmer',
-            sortOrder:true
+            sortOrder:true,
+            skills:[]
          },
          users:[{fname:'Ravi',age:20,salary:100000},{fname:'JOhn',age:60,salary:200000}],
          roles:[]
@@ -69,15 +70,33 @@ export class Userform extends React.Component {
 
     getUsers = (event) =>{
         BackendService.getUsers(
-            (response)=>{  //response callback
-            this.setState({
-                users:response
-            }
-            )
-    }
+                (response)=>{  //response callback
+                this.setState({
+                    users:response
+                }
+                )
+              }
             ).fail((error)=>{
                 alert("There is an issue in Get call");
             });
+    }
+
+    getUsersByName = (event) =>{
+        console.log('getUsersByName');
+        if(event.target.value.length==0){
+            this.getUsers();
+        }else{
+            BackendService.getUsersByName(event.target.value,
+                (response)=>{  //response callback
+                this.setState({
+                    users:response
+                }
+                )
+            }
+                    ).fail((error)=>{
+                        alert("There is an issue in Get by name call");
+                    });
+        }
     }
 
     print = (event)=>{
@@ -130,11 +149,35 @@ export class Userform extends React.Component {
         }
        
     handleEvent = (event) => {
-        this.setState({   //to rerender , call setstate
-          user:Object.assign(this.state.user,{[event.target.name]: event.target.value})
-          // user:{...this.state.user,[event.target.name]: event.target.value}
-        })
+        if(event.target.type == 'checkbox'){            
+            if(event.target.checked){
+                //add values here
+                this.state.user[event.target.name].push(event.target.value);
+            }else{
+                //remove basis value       
+                let i = -1;
+                this.state.user[event.target.name].map( (value, index)=> {
+                    if(value == event.target.value){
+                        i = index;
+                    }
+                });
+                if(i>-1){
+                    this.state.user[event.target.name].splice(i, 1);
+                }                
+            }
+            this.setState({  
+                user: this.state.user
+            });   
+        }       
+        else{
+            this.setState({   //to rerender , call setstate
+            user:Object.assign(this.state.user,{[event.target.name]: event.target.value})
+            // user:{...this.state.user,[event.target.name]: event.target.value}
+            })
+            }
     }
+
+    
 
     render() {
         const userModel = this.state.user;
@@ -171,8 +214,11 @@ export class Userform extends React.Component {
                 {this.state.roles.map((role,index)=>{
                             return <span><input type="radio" value={role} onChange={this.handleEvent} name="role"/>{role}</span>
                         })}
-                
-                
+                <div>
+                <input name='skills' type="checkbox" onChange={this.handleEvent} value="React" />React  
+                <input name='skills'  type="checkbox" onChange={this.handleEvent} value="ReactNative" />React Native  
+                <input name='skills' onChange={this.handleEvent} value="Javascript"  type="checkbox"/>Javascript      
+                </div>
                 <button style={{ backgroundColor: this.props.color }} onClick={(event) => { console.log('inline click');console.log(userModel.fname); }}>Inline Save</button>
                 <button style={{ backgroundColor: this.props.color }} onClick={this.saveUser}>Save User</button>
                 <button onClick={this.print}>Print</button>
@@ -181,15 +227,18 @@ export class Userform extends React.Component {
                     <thead>
                     <th>Index</th>
                     <th>ID</th>
-                        <th>FirstName</th>
+                        <th>FirstName<div><input onBlur={this.getUsersByName}/></div></th>
                         <th onClick={this.sortAge}>Age</th>
                         <th>Salary</th>
                         <th>Gender</th>
                         <th>Role</th>
+                        <th>skills</th>
                         <th>Delete</th>
                     </thead>
                     <tbody>
                         {this.state.users.map((user,index)=>{
+                            let skills="";
+                            skills= Array.isArray(user["skills[]"])? user['skills[]'].map((skill)=> skill+","): user['skills[]']
                             return <tr>
                                 <td>{index}</td>
                                 <td>{user.id}</td>
@@ -198,6 +247,7 @@ export class Userform extends React.Component {
                             <td>{user.salary}</td>
                             <td>{user.gender}</td>
                             <td>{user.role}</td>
+                            <td>{skills}</td>
                             <td><button onClick={this.clkDelete.bind(this,index,user.id)}>Delete</button></td>
                             </tr>
                         })}

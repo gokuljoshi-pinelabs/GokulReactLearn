@@ -16,6 +16,13 @@ export class BackendService{
         });
      }
 
+     static getUsersByName(name,successCallback){
+        return jquery.ajax(baseUrl+'?fname='+name,{
+            type:'get',
+            success:successCallback
+        });
+     }
+
      static getRoles(successCallback){
         return jquery.ajax(roleUrl,{
             type:'get',
