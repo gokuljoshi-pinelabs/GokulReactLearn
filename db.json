@@ -1,19 +1,41 @@
 {
-  "posts": [
+  "users": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "fname": "johnxsddd",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Programmer",
+      "sortOrder": "true",
+      "id": 11
+    },
+    {
+      "fname": "johns",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Programmer",
+      "sortOrder": "true",
+      "id": 12
+    },
+    {
+      "fname": "johns",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Programmer",
+      "sortOrder": "true",
+      "id": 13
+    },
+    {
+      "fname": "john",
+      "age": "30",
+      "salary": "10000",
+      "gender": "FeMale",
+      "role": "Programmer",
+      "sortOrder": "true",
+      "id": 14
     }
   ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  "roles": []
 }

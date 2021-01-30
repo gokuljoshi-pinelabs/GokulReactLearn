@@ -2,12 +2,13 @@ import { Link,Switch, BrowserRouter as Router,Route  } from 'react-router-dom';
 import './App.css';
 import {Userform} from './components/userform/userform'
 import Home from './components/Home'
+import UserContainer from './components/userContainer';
 
 function App() {
   return (
     <div className="App">
       {/* example 1 */}
-<Router><nav>
+{/* <Router><nav>
         <ul>
           <li>
             <Link to='home'>Home</Link>
@@ -25,7 +26,7 @@ function App() {
           <Userform></Userform>
         </Route>
       </Switch>
-      </Router>
+      </Router> */}
       
      {/* <input></input>
      <input></input>
@@ -37,7 +38,8 @@ function App() {
      {/* <Userform label='Second Name' color='green'></Userform>
      <Userform></Userform> */}
 
-{/* <Userform label='First Name' color='cyan'></Userform> */}
+{/* <Userform label='First Name' color='cyan'></Userform>  */}
+ <UserContainer count="50"></UserContainer> 
     </div>
   );
 }

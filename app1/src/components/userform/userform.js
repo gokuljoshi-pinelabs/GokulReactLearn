@@ -7,17 +7,19 @@
 
 import React from "react";
 import { BackendService } from "../../backend-Service";
+import updateCountAction,{updateUserAction} from "../../redux-store/action";
 import './userform.css'
+import { connect } from "react-redux";
 
 
-export class Userform extends React.Component {
+class Userform extends React.Component {
 
     
     // constructor(props){
     //     super(props);
     // }
-    constructor() {  //only one
-        super();
+    constructor(props) {  //only one
+        super(props);
         this.state = {
             user :{
             fname: 'john',
@@ -63,6 +65,7 @@ export class Userform extends React.Component {
                         users:[...this.state.users,Object.assign({},response)]
                     }
                     )
+                    this.props.updateCount({ type:updateCountAction,payload:this.state.users.length});
             }
         ).fail((error)=>{
             alert("There is an issue in save");
@@ -76,6 +79,7 @@ export class Userform extends React.Component {
                     users:response
                 }
                 )
+                this.props.updateCount({ type:updateCountAction,payload:this.state.users.length});
               }
             ).fail((error)=>{
                 alert("There is an issue in Get call");
@@ -100,6 +104,14 @@ export class Userform extends React.Component {
         }
     }
 
+     saveUsersToStore = (index,user)=>{
+
+        console.log('saveUsersToStore click');
+        this.props.updateUser({ type:updateUserAction,payload:user});
+
+        }
+
+
     print = (event)=>{
         console.log(this.state.user.fname);
         this.setState({   //to rerender , call setstate
@@ -119,6 +131,7 @@ export class Userform extends React.Component {
                 this.setState(
                     {users:this.state.users}
                  )
+                 this.props.updateCount({ type:updateCountAction,payload:this.state.users.length});
             }).fail((error)=>{
                 alert('delete error');
             });
@@ -191,7 +204,7 @@ export class Userform extends React.Component {
             // console.log(this.state.fname);
             // this.state.fname = event.target.value}}
             // placeholder={this.props.label} style={{ backgroundColor: this.props.color }}></input>
-            <div>
+            <span id="UserFromID">
                 <input value={this.state.user.fname} 
                 // onChange={(event) => {   //no need to write it on every textbox
                 //     //console.log(this.state.fname);
@@ -240,7 +253,7 @@ export class Userform extends React.Component {
                         {this.state.users.map((user,index)=>{
                             let skills="";
                             skills= Array.isArray(user["skills[]"])? user['skills[]'].map((skill)=> skill+","): user['skills[]']
-                            return <tr>
+                            return <tr onClick={this.saveUsersToStore.bind(this,index,user)}>
                                 <td>{index}</td>
                                 <td>{user.id}</td>
                                 <td>{user.fname}</td>
@@ -255,8 +268,17 @@ export class Userform extends React.Component {
                     </tbody>
                     
                 </table>
-            </div>
+            </span>
         )
 
     }
 }    
+
+
+const MapDispatchToProps = function (dispatch) {
+    return{
+        updateCount : (action)=>{dispatch(action)},
+        updateUser : (action)=>{dispatch(action)}
+    }
+}
+export default connect(null,MapDispatchToProps)(Userform);
